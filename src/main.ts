@@ -30,8 +30,8 @@ export class MyTimer extends LitElement {
 
         <my-list
           .myList=${this.myList}
-          .deleteItem=${this.handleDeleteItem}
-          .triggerEdit=${this.handleTriggerEdit}
+           @edit-item=${this.handleTriggerEdit}
+          @delete-item=${this.handleDeleteItem}
         ></my-list>
       </div>
     `;
@@ -41,14 +41,17 @@ export class MyTimer extends LitElement {
     this.item = (event.target as HTMLInputElement).value
   }
 
-  handleDeleteItem = (item: string) => {
-    this.myList = this.myList.filter(i => i !== item)
+  handleDeleteItem = (e: CustomEvent) => {
+    const item = e.detail.item;
+    this.myList = this.myList.filter(i => i !== item);
   }
 
-  handleTriggerEdit = (item: string) => {
-    this.triggerEdit = true
-    this.itemEdit = item
-    this.indexOfItem = this.myList.indexOf(item)
+  handleTriggerEdit = (e: CustomEvent) => {
+    const item = e.detail.item;
+
+    this.triggerEdit = true;
+    this.itemEdit = item;
+    this.indexOfItem = this.myList.indexOf(item);
   }
 
   handleEditInput = (event: Event) => {
